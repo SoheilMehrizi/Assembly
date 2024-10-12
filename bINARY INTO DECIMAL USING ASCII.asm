@@ -1,0 +1,29 @@
+ORG 100H
+.DATA
+NUMBER DB 00H, 00H, 24H
+;; 24H ==> STRING TERMINATOR
+
+BINARY 59H
+
+.CODE
+START:
+MOV AL, BINARY
+;; REMAINING OF THE DIVISION PLACED AT AH
+
+MOVE AH, 00H
+MOV CL, 10
+DIV CL
+;CONVERTING BCD INTO ASCII
+ADD AH,30H
+ADD AL,30H                                                                                   
+
+MOV NUMBER, AL
+MOV NUMBRER+1, AH
+              
+              
+;PRINTING THE ADDRESS              
+LEA DX, NUMBER
+
+MOV AH, 9H
+INT 21H
+RET

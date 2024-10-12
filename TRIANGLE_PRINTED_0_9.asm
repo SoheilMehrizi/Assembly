@@ -1,0 +1,39 @@
+org 100H
+
+.DATA
+
+NEXTLINE DB 10,13,'$'
+X DB 00H,'$'
+
+.CODE
+
+MOV CX,10
+MOV AX,1
+
+NEXT1:
+    PUSH CX
+    MOV CX,AX
+    MOV BX,0
+    
+    NEXT2:
+        MOV X,B1
+        ADD X,30H
+        LEA DX, X
+        CALL PRINT
+        INC BX
+    LOOP NEXT2
+    POP CX
+    LEA DX, NEXTLINE
+    CALL PRINT
+    INC AX
+LOOP NEXT1
+
+PRINT:
+    PUSH AX
+    MOV AH,09H
+    INT 21H
+    POP AX
+RET
+
+
+RET

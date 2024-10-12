@@ -1,0 +1,54 @@
+ORG 100H
+.DATA
+
+MAT DB 3,-1,8,6
+    DB -6,9,12
+    DB 7 , 2,1
+
+NO DB 00H,00H,00H,24H
+
+.CODE
+
+MOV CX,10
+MOV SI,1
+
+MOV D1,MAT
+
+FIRST:
+    CMP D1,MAT+SI
+    JG NEXT ; JUMP IF GRATER THAN
+    MOV D1,MAT+SI
+NEXT:
+    INC SI
+    LOOP FIRST
+    CALL BIN2ASCII
+RET
+
+
+
+BIN2ASCII:
+    MOV SI,1
+    CMP D1,0
+    
+    JGE POSITIVE ; JUMP INTO POSITIVE IF GRATER THAN EQUAL THAN O
+    NEG D1 
+    MOV SI,0
+    MOV NO,'-'
+    
+    
+ POSITIVE:
+ 
+    MOV Al,Dl
+    MOV AH,00H
+    MOV CL,10
+    DIV CL
+    ADD AH,30H
+    ADD AL,30H
+    MOV NO+1,AL
+    MOV NO+2,AH
+    LEA DX,NO+SI
+    
+    MOV AH, 09H
+    INT 21H
+    
+RET
